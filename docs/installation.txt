@@ -1,7 +1,7 @@
 Installation required :
 
-1. Install python3 and pip3
-2. Install Django server
-3. Install openCV
-4. Install face_recognition library
-5. Install pynput
+1. Install python3 and pip3 ( sudo apt install python3 , pip3 )
+2. Install Django server ( Must be 1.9.1 version or higher )
+3. Install openCV ( pip install opencv-python )
+4. Install face_recognition library ( pip install face_recognition )
+5. Install pynput ( pip install pynput)
