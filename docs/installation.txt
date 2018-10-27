@@ -1,0 +1,7 @@
+Installation required :
+
+1. Install python3 and pip3
+2. Install Django server
+3. Install openCV
+4. Install face_recognition library
+5. Install pynput
