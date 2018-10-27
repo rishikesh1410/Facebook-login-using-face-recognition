@@ -1,4 +1,4 @@
-# Facebook-login-using-face-recognition
+# Facebook-login-using-face-recognition in python and Django
 Introduction :
 
 App has mainly two steps : 
