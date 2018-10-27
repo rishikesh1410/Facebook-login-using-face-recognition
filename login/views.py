@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+from django.http import Http404
 from .models import user
 from django.shortcuts import render
 import face_recognition
@@ -10,16 +11,17 @@ import time
 from PIL import Image
 from pynput.keyboard import Key, Controller
 
-dict={"rishikeshsahu14@gmail.com":"Rishi@14101998"}
 def index(Request) :
     all_users = user.objects.all()
-    context = {
-    'all_users' : all_users,
-    }
+    context = {'all_users' : all_users,}
     return render(Request,"login/index.html",context)
 
 def details(Request, user_id) :
-    return HttpResponse("<p>Details for user id : " + str(user_id) + "</p>")
+    try :
+        user_exist = user.objects.get(pk=user_id)
+    except user.DoesNotExist:
+        raise Http404("User does not exist")
+    return render(Request,"login/details.html",{'user':user_exist})
 
 def tofb(var,pass1):
 
@@ -47,8 +49,7 @@ def tofb(var,pass1):
     kb.release(Key.enter)
     kb.press(Key.tab)
     kb.release(Key.tab)
-
-    time.sleep(3)
+    time.sleep(10)
     for char2 in var:
         kb.press(char2)
         kb.release(char2)
@@ -109,8 +110,14 @@ def capture(Request):
         angle=cosine_similarity(encoding.T,encodings)
         pos=np.argmax(angle)
         var = names[pos]
-        pass1 = dict[var]
-        tofb(var,pass1)
-        return HttpResponse("<p>"+str(var)+"</p>")
+        pass1 = ""
+        try :
+            user1 = user.objects.filter(uname = var)
+            for all in user1 :
+                pass1 = all.password;
+            tofb(var,pass1)
+        except user.DoesNotExist :
+            raise Http404("You are not registered")
+        return HttpResponse("<p>logged</p>")
     except IndexError:
         return HttpResponse("<p></p>")
